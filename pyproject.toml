@@ -1,0 +1,19 @@
+[project]
+name = "quiz"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "ttottotto111",email = "ksw4997@naver.com"}
+]
+readme = "README.md"
+requires-python = "^3.9"
+dependencies = [
+    "django (==4.2)",
+    "django-environ (>=0.12.0,<0.13.0)",
+    "psycopg2 (>=2.9.10,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
