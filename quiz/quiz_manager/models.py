@@ -4,6 +4,7 @@ from django.db import models
 class Quiz(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
+    questions_count = models.IntegerField(default = 10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
