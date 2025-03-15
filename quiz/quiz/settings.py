@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     
     'account',
-    'quiz_manager'
+    'quiz_manager',
+    'quiz_board'
 ]
 
 MIDDLEWARE = [
