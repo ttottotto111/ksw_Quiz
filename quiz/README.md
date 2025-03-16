@@ -1,6 +1,7 @@
 # 초기 설정
 > ## quiz 폴더  
-### .env파일 생성
+### .env파일 수정
+- ./quiz/.env 수정필요
 - django key 및 db정보는 별도 파일로 관리
 ```
 SECRET_KEY='django_key'
