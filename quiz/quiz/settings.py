@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     
     'account',
     'quiz_manager',
-    'quiz_board'
+    'quiz_board',
+    'exam'
 ]
 
 MIDDLEWARE = [
