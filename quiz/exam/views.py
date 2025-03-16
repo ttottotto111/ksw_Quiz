@@ -79,8 +79,8 @@ class Exam(viewsets.ViewSet):
         now_page = request.GET.get('page', 1)
         return Response({
             "page": int(now_page),
-            "questions": question_page.object_list,
-            "total_pages": paginator.num_pages
+            "total_pages": paginator.num_pages,
+            "questions": question_page.object_list
         })
         
     # 시험 결과 제출
@@ -95,7 +95,7 @@ class Exam(viewsets.ViewSet):
         if not questions:
             return Response({"message": "Session close"})
         
-        questions_count = len(request.session.get('questions', []))
+        questions_count = len(questions)
         score = 0
         
         for answer in submit_answers:
