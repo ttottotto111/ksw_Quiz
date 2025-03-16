@@ -1,16 +1,14 @@
-from django.shortcuts import render
 from django.core.cache import cache
 from rest_framework import viewsets
-from rest_framework.response import Response
 import random
 import itertools
 import copy
-
-from .pagination import QuizPagination, QuestionPagination
+from .utils import get_board_setting
 
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAdminUser
 
+from .pagination import QuizPagination, QuestionPagination
 from .serializers import SettingSerializers, QuizSerializers, QuestionsSerializers
 
 from .models import BoardSetting
@@ -27,7 +25,10 @@ class Setting(viewsets.ModelViewSet):
     http_method_names = ['get', 'put', 'patch']
     
     def perform_update(self, serializer):
-        cache.delete("pagination_size")
+        cache.delete("board_setting")
+        
+        setting = BoardSetting.objects.first()
+        cache.set("board_setting", setting, timeout=3600)
         
         return super().perform_update(serializer)
 
@@ -40,7 +41,7 @@ class QuizBoard(viewsets.ReadOnlyModelViewSet):
         quiz = self.get_object()
         
         # 랜덤 확인
-        setting = BoardSetting.objects.first()
+        setting = get_board_setting()
         question_random = setting.question_random
         choice_random = setting.choice_random
         # 설정된 질문 개수 확인
