@@ -11,7 +11,15 @@ DB_HOST='host'
 DB_PORT='port'
 ```
 
+### db 연동
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 # API
+    #### 기본url에 swagger 등록, 전체 api확인 가능.
+    #### 아래 api 설명 추가 참고
 ## 1. account
 사용자 계정 관리 app
 ### 일반사용자 계정 생성
