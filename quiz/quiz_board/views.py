@@ -6,12 +6,13 @@ import copy
 from .utils import get_board_setting
 
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from .pagination import QuizPagination, QuestionPagination
 from .serializers import SettingSerializers, QuizSerializers, QuestionsSerializers
 
 from .models import BoardSetting
+from exam.models import History
 from quiz_manager.models import Quiz
 
 # Create your views here.
@@ -33,9 +34,30 @@ class Setting(viewsets.ModelViewSet):
         return super().perform_update(serializer)
 
 class QuizBoard(viewsets.ReadOnlyModelViewSet):
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     queryset = Quiz.objects.all().order_by("-created_at")
     serializer_class = QuizSerializers
     pagination_class = QuizPagination
+    
+    def get_queryset(self):
+        user = self.request.user
+        
+        quiz = Quiz.objects.all().order_by("-created_at")
+        solved_quiz = History.objects.filter(user_id = user).values_list('quiz_id', flat = True)
+        
+        filter = self.request.query_params.get('filter', None)
+        if filter == 'solved':
+            solved_quiz = Quiz.objects.filter(id__in = solved_quiz)
+            return solved_quiz
+        elif filter == 'notsolved':
+            notsolved_quiz = quiz.exclude(id__in = solved_quiz)
+            return notsolved_quiz
+        elif filter == 'all':
+            return quiz
+        else:
+            return quiz
     
     def retrieve(self, request, *args, **kwargs):
         quiz = self.get_object()
