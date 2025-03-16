@@ -1,7 +1,3 @@
-import random
-import itertools
-import copy
-
 from rest_framework import serializers
 
 from quiz_manager.models import Quiz, Questions
