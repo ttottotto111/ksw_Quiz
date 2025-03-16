@@ -1,3 +1,4 @@
+
 from rest_framework import serializers
 
 from quiz_manager.models import Quiz, Questions
@@ -7,13 +8,13 @@ class SettingSerializers(serializers.ModelSerializer):
     class Meta:
         model = BoardSetting
         fields = ('quiz_paging', 'question_paging', 'question_random', 'choice_random')
-
-class QuestionsSerializers(serializers.ModelSerializer):
+    
+class QuestionsBoardSerializers(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = ('id','title', 'answer') 
 
-class QuizSerializers(serializers.ModelSerializer):
+class QuizBoardSerializers(serializers.ModelSerializer):
     quiz_id = serializers.SerializerMethodField()
     
     class Meta:
@@ -22,5 +23,5 @@ class QuizSerializers(serializers.ModelSerializer):
         
     def get_quiz_id(self, obj):
         if self.context.get('view').action == 'retrieve':
-            return QuestionsSerializers(obj.quiz_id.all(), many=True).data
+            return QuestionsBoardSerializers(obj.quiz_id.all(), many=True).data
         return []

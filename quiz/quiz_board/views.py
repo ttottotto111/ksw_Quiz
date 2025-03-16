@@ -9,7 +9,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from .pagination import QuizPagination, QuestionPagination
-from .serializers import SettingSerializers, QuizSerializers, QuestionsSerializers
+from .serializers import SettingSerializers, QuizBoardSerializers, QuestionsBoardSerializers
 
 from .models import BoardSetting
 from exam.models import History
@@ -38,7 +38,7 @@ class QuizBoard(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
     
     queryset = Quiz.objects.all().order_by("-created_at")
-    serializer_class = QuizSerializers
+    serializer_class = QuizBoardSerializers
     pagination_class = QuizPagination
     
     def get_queryset(self):
@@ -101,7 +101,7 @@ class QuizBoard(viewsets.ReadOnlyModelViewSet):
         paginator = QuestionPagination()
         question_paging = paginator.paginate_queryset(question_list, request)
         
-        question_serializer = QuestionsSerializers(question_paging, many=True)
+        question_serializer = QuestionsBoardSerializers(question_paging, many=True)
         
         return paginator.get_paginated_response({
             'quiz_id': question_serializer.data

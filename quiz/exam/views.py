@@ -9,7 +9,7 @@ import copy
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from quiz_board.serializers import QuestionsSerializers
+from quiz_board.serializers import QuestionsBoardSerializers
 
 from quiz_board import utils
 from quiz_manager.models import Questions, Quiz
@@ -60,7 +60,7 @@ class Exam(viewsets.ViewSet):
                 question_copy.answer = answer
                 question_list[idx] = question_copy
         
-        question_serializer = QuestionsSerializers(question_list, many=True).data
+        question_serializer = QuestionsBoardSerializers(question_list, many=True).data
         request.session['questions'] = question_serializer
         return Response({
             "message": "start quiz",
